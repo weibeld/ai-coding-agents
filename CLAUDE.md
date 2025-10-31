@@ -15,28 +15,11 @@ A coding agent is any agent that is mainly intended for writing code and targete
 
 ## Agent Categories
 
-All coding agents are categorized into:
-1. **⚡️ CLI agent:** Command-line interface tools
-2. **🧩 IDE extension:** Plugins for existing IDEs (VS Code, JetBrains, etc.)
-3. **🖥️ Local IDE:** Standalone IDE applications that run locally
-4. **🌍 Web IDE:** Browser-based IDE environments
-6. **⚙️  Other:** Tools that don't fit the above categories (e.g., GitHub UI integrations, management platforms)
+All coding agents are categorized into six types. See **TEMPLATES.md** for the exact category names and emojis to use.
 
 ## Pricing Models
 
-All coding agents follow one of these pricing models:
-
-**💸🆓 Pay for agent:**
-- Users pay the agent provider
-- Subscription or usage-based payment includes access to AI models
-- Users typically do NOT need their own model API keys
-- Agent provider manages model access and costs
-
-**🆓💸 Pay for model:**
-- The agent itself is free (or has optional paid tiers for extra features)
-- Users pay model providers directly for model usage
-- Users bring their own model API keys (BYOK)
-- Agent provider does not charge for model access
+All coding agents follow one of two pricing models. See **TEMPLATES.md** for the exact pricing model names and emojis to use.
 
 ## Required Information for Each Agent
 
@@ -47,10 +30,10 @@ When documenting or updating agents, always include:
 - Organization/Developer
 - Website URL
 - GitHub repository URL (if open-source)
-- GitHub star count (format: ⭐ ~XXk)
-- Open source status (Yes/No, with license if applicable)
-- Agent category/type (with emoji)
-- Introduction date (Month Year, e.g., "June 2025")
+- GitHub star count (see **TEMPLATES.md** for format)
+- Open source status (see **TEMPLATES.md** for format)
+- Agent category/type (see **TEMPLATES.md** for categories)
+- Introduction date (see **TEMPLATES.md** for date format)
 
 **Project Context:**
 - Related tools from the same maker
@@ -63,9 +46,8 @@ When documenting or updating agents, always include:
 - Default model if applicable
 
 **Pricing:**
-- Pricing model: "Pay for agent" or "Pay for model"
-- All pricing tiers with monthly/annual costs in USD
-- Free tier details if available
+- Pricing model (see **TEMPLATES.md** for format)
+- All pricing tiers with monthly/annual costs in USD (see **TEMPLATES.md** for table format)
 - Links to official pricing pages
 
 **Key Features:**
@@ -76,6 +58,24 @@ When documenting or updating agents, always include:
 **Release Information:**
 - General availability date or beta status
 - Major version milestones
+
+## Documentation Templates
+
+**IMPORTANT:** Always read **TEMPLATES.md** before updating or creating documentation.
+
+That file contains standardized tokens and templates for:
+- Agent category names and emojis
+- Pricing model indicators
+- Open source status formats
+- GitHub star count formatting
+- Compatibility indicators
+- Date formats
+- Model provider and model names
+- Status indicators
+- Pricing table formats
+- Link formats
+
+Using these templates ensures consistency across all documentation.
 
 ## Update Instructions
 
@@ -89,28 +89,16 @@ That file contains:
 
 ## Documentation Standards
 
-**Markdown Formatting:**
-- Always add an empty line below markdown headers (#, ##, ###, ####)
-- Use colons instead of dashes for term explanations: "**foo:** bar" not "**foo** - bar"
+**Language:**
+- Use British English spelling throughout (e.g., "optimise" not "optimize", "organisation" not "organization", "colour" not "color")
 
-**Pricing Tables:**
-- Right-align all numeric columns
-- Use USD currency consistently
-- Format model pricing as "per million tokens"
-
-**Compatibility Indicators:**
-- ✅ = Native support (direct API integration)
-- 🔌 = Via aggregator (OpenRouter, etc.)
-- ❌ = Not supported
-
-**Links:**
-- Maintain working hyperlinks to official sources
-- Include pricing page links
-- Include GitHub repository links where applicable
-
-**Version Information:**
-- Include "Last Updated: Month Day, Year" at top of comparison documents
-- Track introduction dates and release dates for major features
+**All other formatting standards:**
+- See **TEMPLATES.md** for all formatting rules, including:
+  - Markdown formatting rules
+  - Table formatting and alignment
+  - Date formats
+  - Compatibility indicators
+  - Link formats
 
 ## Future Plans
 
