@@ -2,6 +2,111 @@
 
 This file contains standardized text tokens and templates used throughout the documentation. Always use these exact formats for consistency.
 
+## Agent Data Fields
+
+This section defines all fields that should be collected for each coding agent.
+
+### Core Information Fields
+
+**Organisation:**
+- Format: `**Organisation:** [Name](URL)`
+- The company, organisation, or individual developer who creates and provides the agent
+
+**Open-source:**
+- Format: `**Open-source:** ✅ Yes` or `**Open-source:** ❌ No`
+- Whether the agent is open-source
+
+**GitHub repo:**
+- Format: `**GitHub:** https://github.com/org/repo (⭐ ~XXk)` or `**GitHub:** ❌ None`
+- GitHub repository URL if open-source, otherwise "❌ None"
+
+**GitHub stars:**
+- Format: `⭐ ~80.5k` or `⭐ ~4.1k` or `⭐ ~847` or `⭐ ~50`
+- Include in GitHub repo field (see above)
+- Use `~` for approximate, `k` for thousands
+- Round to one decimal for 10k+, exact number for <1k
+- This field should be sortable numerically
+
+**Spec-driven development compatibility:**
+- Format: Multiple sub-fields with ✅/❌ indicators
+- Examples:
+  - `**Spec Kit Compatible:** ✅`
+  - `**OpenSpec Compatible:** ❌`
+  - `**BetterSpec Compatible:** ✅`
+
+**Website:**
+- Format: `**Website:** https://example.com`
+- Main website URL
+
+**Project context:**
+- Format: `**Project Context:** [description with links]`
+- Whether it's a standalone project, part of a platform/suite, related tools
+- Example: "Component of GitHub Copilot platform including [IDE extensions](URL), [Copilot Chat](URL)"
+
+**Category:**
+- Format: `**Type:** ⚡️ CLI Tool` (or other category emoji/name)
+- See "Agent Categories" section for valid values
+
+**IDE compatibility:**
+- Format: `**IDE Compatibility:** VS Code, Cursor, Windsurf, JetBrains IDEs`
+- Only applicable if Category is "🧩 IDE Extension"
+- List of IDEs the extension supports
+
+**Pricing model:**
+- Format: `**Pricing Model:** 🕵️ Pay to Agent Provider` or `**Pricing Model:** 🏢 Pay to Model Provider`
+- See "Pricing Models" section for valid values
+
+**Free tier:**
+- Format: `**Free Tier:** ✅ Yes` or `**Free Tier:** ❌ No`
+- Only applicable if pricing model is "Pay to Agent Provider"
+
+**Git integration:**
+- Format: `**Git Integration:** ✅ GitHub, ✅ GitLab, ✅ Bitbucket, ✅ Self-hosted` or `**Git Integration:** ❌ No`
+- Indicates if agent can commit to Git repositories
+- If yes, list which Git hosting platforms are supported
+
+**MCP support:**
+- Format: `**MCP Support:** ✅ Yes` or `**MCP Support:** ❌ No`
+- Whether the agent supports Model Context Protocol for extensibility
+
+**Model selection:**
+- Format: `**Model Selection:** User can select model` or `**Model Selection:** Model selected automatically`
+- Whether users can choose models or if selection is automatic
+
+**Model support:**
+- Format: Table or structured list grouped by provider
+- Groups: OpenAI, Google, Anthropic, xAI, Others
+- For each model, indicate access method using compatibility indicators:
+  - ✅ = Direct/native access through model provider
+  - 🔌 = Via third-party aggregator (e.g., OpenRouter)
+  - ❌ = Not supported
+- May include comment in parentheses for how model is used
+- Examples:
+  - `✅ Claude Sonnet 4.5 (default)`
+  - `✅ GPT-5 (Oracle subagent for reasoning)`
+  - `🔌 Grok 3 (via OpenRouter)`
+
+**Introduction date:**
+- Format: `**Introduced:** June 2025` or `**Introduced:** 25 June 2025`
+- See "Date Formats" section for formatting rules
+
+### Pricing Table (only if "Pay to Agent Provider")
+
+Use this table format for agents with "Pay to Agent Provider" pricing model:
+
+```markdown
+| Plan | Per Month (USD) | Per Year (USD) |
+|------|----------------:|---------------:|
+| [Free](URL) | $0  | $0   |
+| [Pro](URL)  | $10 | $100 |
+| [Pro+](URL) | $39 | $390 |
+```
+
+**Notes:**
+- Link each plan name to the pricing details page
+- Right-align numeric columns
+- Use whole numbers (no decimals unless necessary)
+
 ## Markdown Formatting Rules
 
 **Headers:**
@@ -16,15 +121,16 @@ This file contains standardized text tokens and templates used throughout the do
 Use these exact tokens when categorizing agents:
 
 ```
-⚡️ CLI Agent
+⚡️ CLI Tool
 🧩 IDE Extension
 🖥️ Dedicated IDE
 🌍 Web IDE
+🔮 Vibe Coding
 ⚙️ Other
 ```
 
 **Examples:**
-- `**Type:** ⚡️ CLI Agent`
+- `**Type:** ⚡️ CLI Tool`
 - `**Type:** 🧩 IDE Extension`
 
 ## Pricing Models
