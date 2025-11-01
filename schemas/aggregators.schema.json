@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Model Aggregators Database",
+  "description": "Schema for model aggregator platforms data",
+  "type": "object",
+  "properties": {
+    "last_updated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when this data was last updated (ISO 8601 format with timezone, e.g., 2025-11-02T14:30:00Z)"
+    },
+    "aggregators": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/aggregator"
+      }
+    }
+  },
+  "required": ["last_updated", "aggregators"],
+  "definitions": {
+    "aggregator": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the aggregator (lowercase, hyphenated)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the aggregator"
+        },
+        "website": {
+          "type": "string",
+          "format": "uri",
+          "description": "Aggregator website URL"
+        },
+        "description": {
+          "type": "string",
+          "description": "Brief description of the aggregator"
+        },
+        "pricing_model": {
+          "type": "string",
+          "enum": ["pay_per_use", "subscription", "free"],
+          "description": "Pricing model"
+        },
+        "pricing_url": {
+          "type": ["string", "null"],
+          "format": "uri",
+          "description": "URL to pricing details (null if free)"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "website",
+        "description",
+        "pricing_model"
+      ]
+    }
+  }
+}

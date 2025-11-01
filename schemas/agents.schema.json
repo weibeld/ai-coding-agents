@@ -1,0 +1,228 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Coding Agents Database",
+  "description": "Schema for coding agents data",
+  "type": "object",
+  "properties": {
+    "last_updated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when this data was last updated (ISO 8601 format with timezone, e.g., 2025-11-02T14:30:00Z)"
+    },
+    "providers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/provider"
+      }
+    }
+  },
+  "required": ["last_updated", "providers"],
+  "definitions": {
+    "provider": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the provider (lowercase, hyphenated)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the provider"
+        },
+        "website": {
+          "type": "string",
+          "format": "uri",
+          "description": "Main website URL"
+        },
+        "billing_model": {
+          "type": "string",
+          "enum": ["billed_by_agent_provider", "billed_by_model_provider"],
+          "description": "Billing model for this provider's agents"
+        },
+        "pricing": {
+          "type": ["object", "null"],
+          "description": "Pricing information (only for billed_by_agent_provider)",
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to pricing details page"
+            },
+            "plans": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "plan": {
+                    "type": "string",
+                    "description": "Plan name (e.g., Free, Pro, Enterprise)"
+                  },
+                  "monthly_usd": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Monthly price in USD"
+                  },
+                  "yearly_usd": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Yearly price in USD"
+                  }
+                },
+                "required": ["plan", "monthly_usd", "yearly_usd"]
+              }
+            }
+          },
+          "required": ["url", "plans"]
+        },
+        "agents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/agent"
+          }
+        }
+      },
+      "required": ["id", "name", "website", "billing_model", "agents"]
+    },
+    "agent": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the agent (lowercase, hyphenated)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the agent"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["cli_tool", "ide_extension", "dedicated_ide", "web_ide", "vibe_coding", "other"],
+          "description": "Agent category"
+        },
+        "open_source": {
+          "type": "boolean",
+          "description": "Whether the agent is open-source"
+        },
+        "github_repo": {
+          "type": ["string", "null"],
+          "format": "uri",
+          "description": "GitHub repository URL (null if not open-source)"
+        },
+        "github_stars": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "GitHub star count (null if no repo)"
+        },
+        "release_date": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}(-[0-9]{2})?$",
+          "description": "Release date (YYYY-MM or YYYY-MM-DD)"
+        },
+        "compat_spec_driven_development": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Array of spec-driven development (SDD) kit IDs that are supported"
+        },
+        "compat_git": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/git_support"
+          },
+          "description": "Array of git platform support (empty if no git support)"
+        },
+        "mcp_support": {
+          "type": "boolean",
+          "description": "Whether Model Context Protocol is supported"
+        },
+        "ide_compatibility": {
+          "type": ["array", "null"],
+          "items": {
+            "type": "string"
+          },
+          "description": "Array of IDE IDs supported (only for ide_extension category)"
+        },
+        "model_selection": {
+          "type": "boolean",
+          "description": "Whether users can freely select models (true) or models are selected automatically (false)"
+        },
+        "models": {
+          "type": "object",
+          "description": "Supported models grouped by provider",
+          "properties": {
+            "openai": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/model_support" }
+            },
+            "anthropic": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/model_support" }
+            },
+            "google": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/model_support" }
+            },
+            "xai": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/model_support" }
+            },
+            "others": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/model_support" }
+            }
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "category",
+        "open_source",
+        "github_repo",
+        "github_stars",
+        "release_date",
+        "compat_spec_driven_development",
+        "compat_git",
+        "mcp_support",
+        "model_selection",
+        "models"
+      ]
+    },
+    "model_support": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Model ID (references models.json)"
+        },
+        "access": {
+          "type": "string",
+          "enum": ["native", "aggregator"],
+          "description": "How the model is accessed"
+        },
+        "note": {
+          "type": ["string", "null"],
+          "description": "Optional note (e.g., 'default', 'for reasoning', etc.)"
+        }
+      },
+      "required": ["id", "access"]
+    },
+    "git_support": {
+      "type": "object",
+      "properties": {
+        "target": {
+          "type": "string",
+          "enum": ["github", "gitlab", "bitbucket", "local"],
+          "description": "Git platform"
+        },
+        "access": {
+          "type": "string",
+          "enum": ["native", "mcp"],
+          "description": "How git integration is provided (native or via MCP)"
+        }
+      },
+      "required": ["target", "access"]
+    }
+  }
+}

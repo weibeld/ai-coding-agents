@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Static Data",
+  "description": "Schema for static data (SDD kits, Git hosting platforms, IDEs, etc.)",
+  "type": "object",
+  "properties": {
+    "spec_driven_development_kits": {
+      "type": "object",
+      "description": "Spec-driven development frameworks",
+      "patternProperties": {
+        "^[a-z_]+$": {
+          "$ref": "#/definitions/named_entity"
+        }
+      }
+    },
+    "git_hosting_platforms": {
+      "type": "object",
+      "description": "Git hosting platforms (github, gitlab, bitbucket, local)",
+      "patternProperties": {
+        "^[a-z_]+$": {
+          "$ref": "#/definitions/named_entity"
+        }
+      }
+    },
+    "ides": {
+      "type": "object",
+      "description": "IDE platforms",
+      "patternProperties": {
+        "^[a-z_]+$": {
+          "$ref": "#/definitions/named_entity"
+        }
+      }
+    }
+  },
+  "required": ["spec_driven_development_kits", "git_hosting_platforms", "ides"],
+  "definitions": {
+    "named_entity": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Display name"
+        },
+        "url": {
+          "type": ["string", "null"],
+          "format": "uri",
+          "description": "Website URL (null if not applicable)"
+        }
+      },
+      "required": ["name"]
+    }
+  }
+}
