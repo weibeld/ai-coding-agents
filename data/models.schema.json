@@ -1,0 +1,162 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Models Database",
+  "description": "Schema for models data with update metadata",
+  "type": "object",
+  "properties": {
+    "last_updated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when this data was last updated (ISO 8601 format with timezone)"
+    },
+    "providers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/model_provider"
+      }
+    }
+  },
+  "required": ["last_updated", "providers"],
+  "definitions": {
+    "update_metadata": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["manual", "research", "fetch"],
+          "description": "Update type: manual (no auto-update), research (fresh research needed), fetch (retrieve from source)"
+        },
+        "last_updated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of last update (ISO 8601), required for research and fetch types"
+        },
+        "source_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Authoritative source URL, required for fetch type only"
+        }
+      },
+      "required": ["type"]
+    },
+    "model_provider": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the provider (not wrapped)"
+        },
+        "name": {
+          "type": "object",
+          "properties": {
+            "value": { "type": "string" },
+            "update": { "$ref": "#/definitions/update_metadata" }
+          },
+          "required": ["value", "update"]
+        },
+        "website": {
+          "type": "object",
+          "properties": {
+            "value": { "type": "string", "format": "uri" },
+            "update": { "$ref": "#/definitions/update_metadata" }
+          },
+          "required": ["value", "update"]
+        },
+        "pricing_url": {
+          "type": "object",
+          "properties": {
+            "value": { "type": "string", "format": "uri" },
+            "update": { "$ref": "#/definitions/update_metadata" }
+          },
+          "required": ["value", "update"]
+        },
+        "models": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/model"
+          }
+        }
+      },
+      "required": ["id", "name", "website", "pricing_url", "models"]
+    },
+    "model": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the model (not wrapped)"
+        },
+        "name": {
+          "type": "object",
+          "properties": {
+            "value": { "type": "string" },
+            "update": { "$ref": "#/definitions/update_metadata" }
+          },
+          "required": ["value", "update"]
+        },
+        "context_size_tokens": {
+          "type": "object",
+          "properties": {
+            "value": { "type": ["integer", "null"], "minimum": 0 },
+            "update": { "$ref": "#/definitions/update_metadata" }
+          },
+          "required": ["value", "update"]
+        },
+        "release_date": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": ["string", "null"],
+              "pattern": "^[0-9]{4}-[0-9]{2}(-[0-9]{2})?$"
+            },
+            "update": { "$ref": "#/definitions/update_metadata" }
+          },
+          "required": ["value", "update"]
+        },
+        "pricing_tiers": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/pricing_tier"
+              },
+              "minItems": 1
+            },
+            "update": { "$ref": "#/definitions/update_metadata" }
+          },
+          "required": ["value", "update"]
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "context_size_tokens",
+        "pricing_tiers"
+      ]
+    },
+    "pricing_tier": {
+      "type": "object",
+      "properties": {
+        "condition": {
+          "type": ["string", "null"],
+          "description": "Pricing condition (e.g., '≤200K tokens', 'cached', '>128K tokens', null for default/single tier)"
+        },
+        "input_1m_tokens": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "description": "Input price in USD per 1 million tokens (null if not applicable)"
+        },
+        "output_1m_tokens": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "description": "Output price in USD per 1 million tokens (null if not applicable)"
+        }
+      },
+      "required": [
+        "input_1m_tokens",
+        "output_1m_tokens"
+      ]
+    }
+  }
+}

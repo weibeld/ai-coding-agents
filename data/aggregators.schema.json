@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Model Aggregators Database",
+  "description": "Schema for model aggregator platforms data with update metadata",
+  "type": "object",
+  "properties": {
+    "last_updated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when this data was last updated (ISO 8601 format with timezone)"
+    },
+    "aggregators": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/aggregator"
+      }
+    }
+  },
+  "required": ["last_updated", "aggregators"],
+  "definitions": {
+    "update_metadata": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["manual", "research", "fetch"],
+          "description": "Update type: manual (no auto-update), research (fresh research needed), fetch (retrieve from source)"
+        },
+        "last_updated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of last update (ISO 8601), required for research and fetch types"
+        },
+        "source_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Authoritative source URL, required for fetch type only"
+        }
+      },
+      "required": ["type"]
+    },
+    "aggregator": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier (not wrapped)"
+        },
+        "name": {
+          "type": "object",
+          "properties": {
+            "value": { "type": "string" },
+            "update": { "$ref": "#/definitions/update_metadata" }
+          },
+          "required": ["value", "update"]
+        },
+        "website": {
+          "type": "object",
+          "properties": {
+            "value": { "type": "string", "format": "uri" },
+            "update": { "$ref": "#/definitions/update_metadata" }
+          },
+          "required": ["value", "update"]
+        },
+        "description": {
+          "type": "object",
+          "properties": {
+            "value": { "type": "string" },
+            "update": { "$ref": "#/definitions/update_metadata" }
+          },
+          "required": ["value", "update"]
+        },
+        "pricing_model": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "string",
+              "enum": ["pay_per_use", "subscription", "free"]
+            },
+            "update": { "$ref": "#/definitions/update_metadata" }
+          },
+          "required": ["value", "update"]
+        },
+        "pricing_url": {
+          "type": "object",
+          "properties": {
+            "value": { "type": ["string", "null"], "format": "uri" },
+            "update": { "$ref": "#/definitions/update_metadata" }
+          },
+          "required": ["value", "update"]
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "website",
+        "description",
+        "pricing_model"
+      ]
+    }
+  }
+}
